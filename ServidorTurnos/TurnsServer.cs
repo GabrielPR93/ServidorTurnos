@@ -209,11 +209,12 @@ namespace ServidorTurnos
                             }
                             else if (usuario.Equals(teacherPass))// Si es profesor (ADMIN)
                             {
-                                sw.WriteLine("Introduce comando");
-                                sw.Flush();
 
                                 while (profesor)
                                 {
+                                    sw.WriteLine("\nIntroduce comando");
+                                    sw.Flush();
+
                                     comando = sr.ReadLine();
                                     if (comando != null)
                                     {
@@ -229,7 +230,7 @@ namespace ServidorTurnos
                                                 lock (l)
                                                 {
 
-                                                    if (queue.Count() >= num2)
+                                                    if (queue.Count() > num2)
                                                     {
                                                         queue.RemoveRange(num1, num2 - num1 + 1); //+1 para incluir el ultimo
                                                     }
@@ -244,7 +245,7 @@ namespace ServidorTurnos
                                             {
                                                 Console.WriteLine("Numero demasiado largo");
                                             }
-                                            catch (ArgumentOutOfRangeException)
+                                            catch (IndexOutOfRangeException)
                                             {
                                                 Console.WriteLine("Valor fuera de rango");
 
@@ -287,7 +288,7 @@ namespace ServidorTurnos
                     }
                     catch (IOException e)
                     {
-
+                        conexion = false;
                         Console.WriteLine(e.Message);
 
                     }
