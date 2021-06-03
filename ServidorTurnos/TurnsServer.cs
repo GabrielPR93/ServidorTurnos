@@ -231,7 +231,7 @@ namespace ServidorTurnos
 
                                                     if (queue.Count() >= num2)
                                                     {
-                                                        queue.RemoveRange(num1, num2 - num1 + 1); //+1 para incluir el ultimo --
+                                                        queue.RemoveRange(num1, num2 - num1 + 1); //+1 para incluir el ultimo
                                                     }
 
                                                 }

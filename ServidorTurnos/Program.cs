@@ -12,6 +12,7 @@ namespace ServidorTurnos
         {
             TurnsServer turnsServer = new TurnsServer();
             turnsServer.init();
+
         }
     }
 }
