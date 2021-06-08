@@ -23,14 +23,21 @@ namespace ServidorTurnos
         public string usuario;
         private int TestPort(string puerto)
         {
-
-            int puertoValido = Convert.ToInt32(puerto);
-
-            if (puertoValido >= IPEndPoint.MinPort && puertoValido <= IPEndPoint.MaxPort)
+            try
             {
-                return puertoValido;
-            }
 
+                int puertoValido = Convert.ToInt32(puerto);
+
+                if (puertoValido >= IPEndPoint.MinPort && puertoValido <= IPEndPoint.MaxPort)
+                {
+                    return puertoValido;
+                }
+            }
+            catch (FormatException e)
+            {
+
+                Console.WriteLine(e.Message);
+            }
             return -1;
         }
 
@@ -45,6 +52,7 @@ namespace ServidorTurnos
 
                 using (StreamReader sr = new StreamReader(Environment.GetEnvironmentVariable("USERPROFILE") + "/list.txt"))
                 {
+
 
                     while ((linea = sr.ReadLine()) != null)
                     {
@@ -104,7 +112,7 @@ namespace ServidorTurnos
             int puerto = ports[0];
 
 
-            if (ReadData() != false)
+            if (ReadData())
             {
 
                 while (flagPuerto)
@@ -135,7 +143,6 @@ namespace ServidorTurnos
                             flagPuerto = true;
 
                         }
-
                     }
 
                 }
@@ -230,7 +237,7 @@ namespace ServidorTurnos
                                                 lock (l)
                                                 {
 
-                                                    if (queue.Count() > num2)
+                                                    if (queue.Count() > num2 && num1 < queue.Count() && num2 >= num1 && num2 > -1 && num1 > -1) //comprobaciones
                                                     {
                                                         queue.RemoveRange(num1, num2 - num1 + 1); //+1 para incluir el ultimo
                                                     }
@@ -256,10 +263,15 @@ namespace ServidorTurnos
                                             switch (comando)
                                             {
                                                 case "list":
-                                                    foreach (string item in queue)
+                                                    lock (l)
                                                     {
-                                                        sw.WriteLine(item);
-                                                        sw.Flush();
+
+                                                        foreach (string item in queue)
+                                                        {
+                                                            sw.WriteLine(item);
+                                                            sw.Flush();
+                                                        }
+
                                                     }
                                                     break;
                                                 case "exit":
