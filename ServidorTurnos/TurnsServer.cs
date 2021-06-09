@@ -149,19 +149,19 @@ namespace ServidorTurnos
                 while (flagCorrecto)
                 {
                     Socket sCliente = s.Accept();
-                    Thread hilo = new Thread(Client);
-                    hilo.Start(sCliente);
+                    Thread hilo = new Thread(()=>Client(sCliente));
+                    hilo.Start();
                 }
 
             }
         }
 
-        public void Client(object socket)
+        public void Client(Socket socket)
         {
             bool conexion = true;
             bool profesor = true;
             string comando;
-            Socket scliente = (Socket)socket;
+            Socket scliente = socket;
             IPEndPoint ieCLiente = (IPEndPoint)scliente.RemoteEndPoint;
 
             using (NetworkStream ns = new NetworkStream(scliente))
